@@ -43,6 +43,13 @@ import CompletedTasks from "./components/Completed.vue"
 
 export default {
   name: 'app',
+  components: {
+    Toolbar,
+    InfoScreen,
+    AddTask,
+    CurrentTask,
+    CompletedTasks
+  },
   data() {
     return {
       logg: [{checkInTime: "nei"}],
@@ -65,58 +72,67 @@ export default {
       this.logg[this.index].checkOutTime = new Date;
       this.checkedIn = false;
     },
-    addToLocalStorage() {
-
-    },
     addTask() {
             const time = new Date;
             const task = document.getElementById("task");
             this.currentTask = {"checkIn": time, "task": task.value, "checkOut": 0, "timeSpent": 0};
             task.value = "";
             this.newTask = false;
-        },
-        completeTask() {
-            const time = new Date;
-            const timeSpent = this.timeSpent(this.currentTask.checkIn, time);
-            this.currentTask.checkOut = time;
-            this.currentTask.timeSpent = timeSpent;
-            this.tasks.push(this.currentTask);
+    },
+    completeTask() {
+        const time = new Date;
+        const timeSpent = this.timeSpent(this.currentTask.checkIn, time);
+        this.currentTask.checkOut = time;
+        this.currentTask.timeSpent = timeSpent;
+        this.tasks.push(this.currentTask);
+        this.currentTask = null;
+        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    },
+    removeCurrentTask: function() {
             this.currentTask = null;
-        },
-        removeCurrentTask: function() {
-                this.currentTask = null;
-        },
-        removeTask(index) {
-            this.tasks.splice(index,1);
-        },
-        timeSpent(start, end) {
-            let timeSpentSeconds = (end - start)/1000;
-            let minutesSpent = Math.trunc(timeSpentSeconds/60);
-            let hoursSpent = Math.trunc(minutesSpent / 60);
-            if(hoursSpent != 0) {
-                minutesSpent = minutesSpent - (60*hoursSpent);
-            }
+    },
+    removeTask(index) {
+        this.tasks.splice(index,1);
+    },
+    timeSpent(start, end) {
+      let timeSpentSeconds = (end - start)/1000;
+      let minutesSpent = Math.trunc(timeSpentSeconds/60);
+      let hoursSpent = Math.trunc(minutesSpent / 60);
+      if(hoursSpent != 0) {
+          minutesSpent = minutesSpent - (60*hoursSpent);
+      }
 
-            let returnString = "";
+      let returnString = "";
 
-            if (minutesSpent == 1) {returnString = minutesSpent + " minutt";
-            } else {returnString = minutesSpent + " minutter";}  
+      if (minutesSpent == 1) {returnString = minutesSpent + " minutt";
+      } else {returnString = minutesSpent + " minutter";}  
 
-            if (hoursSpent == 0) {return returnString}
-            
-            if (hoursSpent == 1) {returnString = hoursSpent + " time og " + returnString;
-            } else {returnString = hoursSpent + " timer og " + returnString}
-            
-            return returnString;
-        }
+      if (hoursSpent == 0) {return returnString}
+      
+      if (hoursSpent == 1) {returnString = hoursSpent + " time og " + returnString;
+      } else {returnString = hoursSpent + " timer og " + returnString}
+      
+      return returnString;
+    },
+    addToLocalStorage() {
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      localStorage.setItem('logg', JSON.stringify(this.logg));
+    },
+    getFromLocalStorage() {
+      const tasks = localStorage.getItem('tasks');
+      //const logg = localStorage.getItem('logg');
+      this.tasks = JSON.parse(tasks);
+      //this.logg = JSON.parse(logg);
+    }
   },
-  components: {
-    Toolbar,
-    InfoScreen,
-    AddTask,
-    CurrentTask,
-    CompletedTasks
+  beforeDestroy() {
+    this.addToLocalStorage()
+  },
+  beforeMount() {
+    this.getFromLocalStorage();
+    this.index = this.tasks.length-1;
   }
+  
 }
 </script>
 
