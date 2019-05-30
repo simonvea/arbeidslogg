@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header>
+      <h1>Arbeidslog</h1>
+      <menu></menu>
+    </header>
+    <main>
+      <section class="container">
+        <section class="check-in-info"></section>
+        <section class="add-task"></section>
+      </section>
+      <section class="tasks">
+        <section class="current-task"></section>
+        <section class="complete-tasks"></section>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import menu from "./components/menu.vue"
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    menu,
+
   }
 }
 </script>
