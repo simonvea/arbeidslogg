@@ -11,21 +11,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2015</td>
-                    <td>10:45</td>
-                    <td>11:30</td>
-                    <td>30 minutter</td>
-                    <td>lage ett sjekk-inn system</td>
+                <tr v-for="(task, index) in tasks" v-bind:key="index">
+                    <td>{{task.checkIn.getDate()+"."+task.checkIn.getMonth()+"."+task.checkIn.getFullYear()}}</td>
+                    <td>{{task.checkIn.getHours() + ":" + task.checkIn.getMinutes()}}</td>
+                    <td>{{task.checkOut.getHours() + ":" + task.checkOut.getMinutes()}}</td>
+                    <td>{{task.timeSpent}}</td>
+                    <td>{{task.task}}</td>
                 </tr>
             </tbody>
         </table>    
-
     </section>
 </template>
 
 <script>
 export default {
-    name: "CompletedTasks"
+    name: "CompletedTasks",
+    props: ["tasks"]
 }
 </script>

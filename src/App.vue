@@ -16,15 +16,7 @@
             />
           </section>
           <section class="col-12 col-md-7">
-            <p>
-            <add-task />
-            </p>
-            <p>
-            <current-task />
-            </p>
-            <p>
-            <completed-tasks />
-            </p>
+            <tasks />
           </section>
         </div>
     </main>
@@ -34,9 +26,7 @@
 <script>
 import Toolbar from "./components/menu.vue"
 import Info from "./components/CheckInInfo.vue"
-import AddTask from "./components/AddTask.vue"
-import CurrentTask from "./components/CurrentTask.vue"
-import CompletedTasks from "./components/Completed.vue"
+import Tasks from "./components/Tasks.vue"
 
 export default {
   name: 'app',
@@ -65,9 +55,7 @@ export default {
   components: {
     Toolbar,
     InfoScreen: Info,
-    AddTask,
-    CurrentTask,
-    CompletedTasks
+    Tasks
   }
 }
 </script>
