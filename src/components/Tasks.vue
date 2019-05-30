@@ -9,12 +9,13 @@
             <current-task 
                 v-bind:task="currentTask"
                 v-on:complete="completeTask()"
-                v-on:remove="removeTask()"
+                v-on:remove="removeCurrentTask()"
             />
         </p>
         <p>
             <completed-tasks 
                 v-bind:tasks="tasks"
+                v-on:remove="removeTask"
             />
         </p>
     </div>
@@ -48,8 +49,11 @@ export default {
             this.tasks.push(this.currentTask);
             this.currentTask = null;
         },
-        removeTask() {
-            this.currentTask = null;
+        removeCurrentTask: function() {
+                this.currentTask = null;
+        },
+        removeTask(index) {
+            this.tasks.splice(index,1);
         },
         timeSpent(start, end) {
             let timeSpentSeconds = (end - start)/1000;

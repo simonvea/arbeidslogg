@@ -8,6 +8,7 @@
                     <th scope="col">Avsluttet</th>
                     <th scope="col">Arbeidstid</th>
                     <th scope="col">Oppgave</th>
+                    <th scope="col">Slett</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,6 +18,7 @@
                     <td>{{task.checkOut.getHours() + ":" + task.checkOut.getMinutes()}}</td>
                     <td>{{task.timeSpent}}</td>
                     <td>{{task.task}}</td>
+                    <td> <button class="btn btn-danger" v-on:click="$emit('remove', index)">X</button> </td>
                 </tr>
             </tbody>
         </table>    
