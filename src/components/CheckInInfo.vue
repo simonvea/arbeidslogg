@@ -1,7 +1,8 @@
 <template>
     <section class="container">
         <div class="row justify-content-center">
-            <p> <strong>Sjekket inn:</strong> {{logg.checkInTime.toLocaleString()}} </p>
+            <p v-if="checkedIn"> <strong>Sjekket inn:</strong> {{logg.checkInTime.toLocaleString()}} </p>
+            <p v-else><strong>Ikke sjekket inn.</strong></p>
         </div>
     </section>
 </template>
@@ -15,7 +16,7 @@ export default {
         }
     },
     name: "checkInInfo",
-    props: ["logg"]
+    props: ["logg", "checkedIn"]
 }
 </script>
 

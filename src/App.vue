@@ -11,6 +11,7 @@
           ></toolbar>
           <info-screen 
             v-bind:logg="logg[index]"
+            v-bind:checkedIn="checkedIn"
           />
       </header>
     <main>
@@ -52,7 +53,7 @@ export default {
   },
   data() {
     return {
-      logg: [{checkInTime: "nei"}],
+      logg: [{"first": "first"}],
       index: 0,
       checkedIn: false,
       newTask: false,
@@ -74,26 +75,26 @@ export default {
       localStorage.setItem('logg',JSON.stringify(this.logg));
     },
     addTask() {
-            const time = new Date;
-            const task = document.getElementById("task");
-            this.currentTask = {"checkIn": time, "task": task.value, "checkOut": 0, "timeSpent": 0};
-            task.value = "";
-            this.newTask = false;
+      const time = new Date().getTime();
+      const task = document.getElementById("task");
+      this.currentTask = {"checkIn": time, "task": task.value, "checkOut": 0, "timeSpent": 0};
+      task.value = "";
+      this.newTask = false;
     },
     completeTask() {
-        const time = new Date;
-        const timeSpent = this.timeSpent(this.currentTask.checkIn, time);
-        this.currentTask.checkOut = time;
-        this.currentTask.timeSpent = timeSpent;
-        this.tasks.push(this.currentTask);
-        this.currentTask = null;
-        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+      const time = new Date().getTime();
+      const timeSpent = this.timeSpent(this.currentTask.checkIn, time);
+      this.currentTask.checkOut = time;
+      this.currentTask.timeSpent = timeSpent;
+      this.tasks.push(this.currentTask);
+      this.currentTask = null;
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
     },
     removeCurrentTask: function() {
-            this.currentTask = null;
+      this.currentTask = null;
     },
     removeTask(index) {
-        this.tasks.splice(index,1);
+      this.tasks.splice(index,1);
     },
     timeSpent(start, end) {
       let timeSpentSeconds = (end - start)/1000;
@@ -123,7 +124,9 @@ export default {
       const tasks = localStorage.getItem('tasks');
       const logg = localStorage.getItem('logg');
       this.tasks = JSON.parse(tasks);
-      this.logg = JSON.parse(logg);
+      if(logg != null) {
+        this.logg = JSON.parse(logg);
+      }
     }
   },
   beforeDestroy() {

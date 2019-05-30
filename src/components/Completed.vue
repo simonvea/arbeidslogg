@@ -13,12 +13,12 @@
             </thead>
             <tbody>
                 <tr v-for="(task, index) in tasks" v-bind:key="index">
-                    <td>{{parseDate(task.checkIn)}}</td>
-                    <td>{{parseHours(task.checkIn)}}</td>
-                    <td>{{parseHours(task.checkOut)}}</td>
+                    <td>{{getDate(task.checkIn)}}</td>
+                    <td>{{getTime(task.checkIn)}}</td>
+                    <td>{{getTime(task.checkOut)}}</td>
                     <td>{{task.timeSpent}}</td>
                     <td>{{task.task}}</td>
-                    <td> <button class="btn btn-danger" v-on:click="$emit('remove', index)">X</button> </td>
+                    <td> <button class="btn btn-outline-danger" v-on:click="$emit('remove', index)">X</button> </td>
                 </tr>
             </tbody>
         </table>    
@@ -38,6 +38,14 @@ export default {
             const regexDate = /(\d\d\d\d)-(\d\d)-(\d\d)/;
             const testArray = date.match(regexDate);
             return `${testArray[3]}.${testArray[2]}.${testArray[1]}`
+        },
+        getDate(date) {
+            const time = new Date(date);
+            return `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`
+        },
+        getTime(date) {
+            const time = new Date(date);
+            return `${time.getHours()}:${time.getMinutes()}`
         }
     }
         
