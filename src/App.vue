@@ -1,22 +1,32 @@
 <template>
-  <div id="app">
-    <header>
-      <div class="container justify-content-center">
-      <h1>Arbeidslogg</h1>
-      <toolbar></toolbar>
-      </div>
-    </header>
-    <main class="container">
-      <div class="row align-items-center justify-content-center">
-        <section class="col-12 col-md-6 justify-content-center">
-          <info-screen />
-        </section>
-        <section class="tasks col-12 col-md-6">
-          <add-task />
-          <current-task />
-          <completed-tasks />
-        </section>
-      </div>
+  <div id="app" class="container">
+      <header>
+          <h1>Arbeidslogg</h1>
+          <toolbar
+            v-on:check-in="checkIn()"
+            v-on:check-out="checkOut()"
+            v-bind:checkedIn="checkedIn"
+          ></toolbar>
+      </header>
+    <main>
+        <div class="row">
+          <section class="col-12 col-md-5">
+            <info-screen 
+              v-bind:logg="logg[index]"
+            />
+          </section>
+          <section class="col-12 col-md-7">
+            <p>
+            <add-task />
+            </p>
+            <p>
+            <current-task />
+            </p>
+            <p>
+            <completed-tasks />
+            </p>
+          </section>
+        </div>
     </main>
   </div>
 </template>
@@ -30,6 +40,28 @@ import CompletedTasks from "./components/Completed.vue"
 
 export default {
   name: 'app',
+  data() {
+    return {
+      logg: [{checkInTime: new Date}],
+      index: 0,
+      checkedIn: false
+    }
+  },
+  methods: {
+    checkIn() {
+      const checkInTime = new Date;
+      this.logg.push({checkInTime, "checkOutTime": false});
+      this.index += 1;
+      this.checkedIn = true;
+    },
+    checkOut() {
+      this.logg[this.index].checkOutTime = new Date;
+      this.checkedIn = false;
+    },
+    addToLocalStorage() {
+
+    }
+  },
   components: {
     Toolbar,
     InfoScreen: Info,
@@ -41,7 +73,7 @@ export default {
 </script>
 
 <style>
-#app {
+#app, main {
   margin-top: 60px;
 }
 
