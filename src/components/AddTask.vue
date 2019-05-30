@@ -1,8 +1,8 @@
 <template>
-    <section class="row">
+    <section class="row justify-content-center">
         <form v-on:submit.prevent="$emit('addTask')">
             <div class="form-group">
-                <label>Oppgave:
+                <label><strong> Oppgave: </strong>
                     <input type=text name="task" class="form-control" id="task">
                 </label>
             </div>

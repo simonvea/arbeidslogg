@@ -1,9 +1,8 @@
 <template>
-    <section>
-        <h5>Logget inn som: </h5>
-        <h3>Sjekket inn: </h3>
-            <p> {{logg.checkInTime.toLocaleString()}} </p>
-        <h3>Oppgave: </h3>
+    <section class="container">
+        <div class="row justify-content-center">
+            <p> <strong>Sjekket inn:</strong> {{logg.checkInTime.toLocaleString()}} </p>
+        </div>
     </section>
 </template>
 
@@ -19,4 +18,11 @@ export default {
     props: ["logg"]
 }
 </script>
+
+<style scoped>
+    section {
+        text-align: center;
+    }
+</style>
+
 
