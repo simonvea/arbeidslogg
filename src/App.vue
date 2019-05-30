@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <header>
-      <h1>Arbeidslog</h1>
-      <menu></menu>
+      <h1>Arbeidslogg</h1>
+      <a-menu></a-menu>
     </header>
     <main>
       <section class="container">
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import menu from "./components/menu.vue"
+import Menu from "./components/menu.vue"
 
 export default {
   name: 'app',
   components: {
-    menu,
+    AMenu: Menu,
 
   }
 }
