@@ -65,12 +65,13 @@ export default {
     checkIn() {
       const checkInTime = new Date;
       this.logg.push({checkInTime, "checkOutTime": false});
-      this.index += 1;
+      this.index = this.logg.length-1;
       this.checkedIn = true;
     },
     checkOut() {
       this.logg[this.index].checkOutTime = new Date;
       this.checkedIn = false;
+      localStorage.setItem('logg',JSON.stringify(this.logg));
     },
     addTask() {
             const time = new Date;
@@ -120,9 +121,9 @@ export default {
     },
     getFromLocalStorage() {
       const tasks = localStorage.getItem('tasks');
-      //const logg = localStorage.getItem('logg');
+      const logg = localStorage.getItem('logg');
       this.tasks = JSON.parse(tasks);
-      //this.logg = JSON.parse(logg);
+      this.logg = JSON.parse(logg);
     }
   },
   beforeDestroy() {
@@ -130,7 +131,6 @@ export default {
   },
   beforeMount() {
     this.getFromLocalStorage();
-    this.index = this.tasks.length-1;
   }
   
 }
