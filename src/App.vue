@@ -12,6 +12,7 @@
           <info-screen 
             v-bind:logg="logg[index]"
             v-bind:checkedIn="checkedIn"
+            v-bind:time="workTime"
           />
       </header>
     <main>
@@ -59,7 +60,8 @@ export default {
       newTask: false,
       tasks: [],
       currentTask: null,
-      showCompleted: false
+      showCompleted: false,
+      workTime: 0
     }
   },
   methods: {

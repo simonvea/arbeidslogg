@@ -2,11 +2,9 @@
     <section class="row justify-content-center">
         <form v-on:submit.prevent="$emit('addTask')">
             <div class="form-group">
-                <label><strong> Oppgave: </strong>
-                    <input type=text name="task" class="form-control" id="task">
-                </label>
+                <input type=text name="task" class="form-control" id="task" placeholder="Ny oppgave">
             </div>
-            <button type="submit" id="check-in" class="btn btn-primary">Legg til</button>
+            <button type="submit" id="check-in" class="btn btn-primary">Start</button>
         </form>
     </section>
 </template>
@@ -16,4 +14,15 @@ export default {
     name: "addTask"
 }
 </script>
+
+<style scoped>
+    form {
+        text-align: center;
+    }
+
+    section {
+        padding-bottom: 30px;
+    }
+</style>
+
 
