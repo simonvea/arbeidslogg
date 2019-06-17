@@ -1,6 +1,6 @@
 <template>
     <section class="row">
-        <table class="table table-borderless table-striped" v-if="task">
+        <table class="table table-borderless table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Dato</th>
@@ -31,11 +31,14 @@ export default {
     methods: {
         getDate(date) {
             const time = new Date(date);
-            return `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`
+            const dateString = String(time.getDate()).padStart(2,"0");
+            const monthString = String(time.getMonth()).padStart(2,"0");
+
+            return `${dateString}.${monthString}.${time.getFullYear()}`
         },
         getTime(date) {
             const time = new Date(date);
-            return `${time.getHours()}:${time.getMinutes()}`
+            return `${time.getHours()}:${String(time.getMinutes()).padStart(2,"0")}`
         }
     }
 }

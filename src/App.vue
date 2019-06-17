@@ -75,7 +75,7 @@ export default {
       
       return returnString;
     },
-    addToLocalStorage() {
+   /*  addToLocalStorage() {
       localStorage.setItem('tasks', JSON.stringify(this.tasks));
       localStorage.setItem('logg', JSON.stringify(this.logg));
     },
@@ -86,14 +86,14 @@ export default {
       if(logg != null) {
         this.logg = JSON.parse(logg);
       }
-    }
+    } */
   },
-  beforeDestroy() {
+  /* beforeDestroy() {
     this.addToLocalStorage()
   },
   beforeMount() {
     this.getFromLocalStorage();
-  }
+  } */
   
 }
 </script>
