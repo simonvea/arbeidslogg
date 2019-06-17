@@ -69,17 +69,4 @@ export default {
     },
   }
 }
-
-
-
-/*     <current-task 
-      v-bind:task="currentTask"
-      v-on:complete="completeTask()"
-      v-on:remove="removeCurrentTask()"
-    />
-    <completed-tasks 
-      v-if="showCompleted"
-      v-bind:tasks="tasks"
-      v-on:remove="removeTask"
-    /> */
 </script>

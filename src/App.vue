@@ -35,8 +35,6 @@ export default {
       logg:[{"first": "first"}],
       index: 0,
       checkedIn: false,
-      tasks: [],
-      showCompleted: false,
       workTime: 0
     }
   },
@@ -51,9 +49,6 @@ export default {
       this.logg[this.index].checkOutTime = new Date;
       this.checkedIn = false;
       localStorage.setItem('logg',JSON.stringify(this.logg));
-    },
-    removeTask(index) {
-      this.tasks.splice(index,1);
     },
     timeSpent(start, end) {
       let timeSpentSeconds = (end - start)/1000;

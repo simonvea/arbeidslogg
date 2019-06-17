@@ -18,7 +18,7 @@
                     <td>{{getTime(task.checkOut)}}</td>
                     <td>{{task.timeSpent}}</td>
                     <td>{{task.task}}</td>
-                    <td> <button class="btn btn-outline-danger" v-on:click="$emit('remove', index)">X</button> </td>
+                    <td> <button class="btn btn-outline-danger" v-on:click="removeTask(index)">X</button> </td>
                 </tr>
             </tbody>
         </table>    
@@ -26,26 +26,30 @@
 </template>
 
 <script>
+import store from "@/store"
+
 export default {
+    data() {
+        return {
+            tasks: store.state.tasks
+        }
+    },
     name: "CompletedTasks",
-    props: ["tasks"],
     methods: {
-        parseHours(date) {
-            const regexHours = /\d\d:\d\d/;
-            return date.match(regexHours)[0]
-        },
-        parseDate(date) {
-            const regexDate = /(\d\d\d\d)-(\d\d)-(\d\d)/;
-            const testArray = date.match(regexDate);
-            return `${testArray[3]}.${testArray[2]}.${testArray[1]}`
-        },
         getDate(date) {
             const time = new Date(date);
-            return `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`
+            const dateString = String(time.getDate()).padStart(2,"0");
+            const monthString = String(time.getMonth()).padStart(2,"0");
+
+            return `${dateString}.${monthString}.${time.getFullYear()}`
         },
         getTime(date) {
             const time = new Date(date);
-            return `${time.getHours()}:${time.getMinutes()}`
+            return `${time.getHours()}:${String(time.getMinutes()).padStart(2,"0")}`
+        },
+        removeTask(index) {
+            store.commit("removeTask", index);
+            localStorage.setItem('tasks', JSON.stringify(store.state.tasks));
         }
     }
         
