@@ -2,13 +2,14 @@
   <div id="app" class="container">
       <header>
           <h1>Arbeidslogg</h1>
-          <toolbar
-            v-on:check-in="checkIn()"
-            v-on:check-out="checkOut()"
-            v-on:new-task="newTask = !newTask"
-            v-on:show-completed="showCompleted = !showCompleted"
-            v-bind:checkedIn="checkedIn"
-          ></toolbar>
+          <div class="row justify-content-center">
+            <section class="btn-group" role="toolbar" aria-label="toolbar">
+              <button class="btn btn-danger" v-if="checkedIn" v-on:click="checkOut">Sjekk ut</button>
+              <button class="btn btn-success" v-else v-on:click="checkIn">Sjekk inn</button>
+              <router-link :to="{name: 'home'}" tag="button" class="btn btn-secondary">Ny oppgave</router-link>
+              <router-link :to="{name: 'logg'}" tag="button" class="btn btn-secondary">Arbeidslogg</router-link>
+            </section>
+          </div>
           <info-screen 
             v-bind:logg="logg[index]"
             v-bind:checkedIn="checkedIn"
@@ -16,50 +17,25 @@
           />
       </header>
     <main>
-        <div class="container">
-          <add-task 
-              v-if="newTask"
-              v-on:addTask="addTask()"
-          />
-            <current-task 
-                v-bind:task="currentTask"
-                v-on:complete="completeTask()"
-                v-on:remove="removeCurrentTask()"
-            />
-            <completed-tasks 
-              v-if="showCompleted"
-              v-bind:tasks="tasks"
-              v-on:remove="removeTask"
-            />
-        </div>
+      <router-view class="container"></router-view>
     </main>
   </div>
 </template>
 
 <script>
-import Toolbar from "./components/menu.vue"
 import InfoScreen from "./components/CheckInInfo.vue"
-import AddTask from "./components/AddTask.vue"
-import CurrentTask from "./components/CurrentTask.vue"
-import CompletedTasks from "./components/Completed.vue"
 
 export default {
   name: 'app',
   components: {
-    Toolbar,
-    InfoScreen,
-    AddTask,
-    CurrentTask,
-    CompletedTasks
+    InfoScreen
   },
   data() {
     return {
-      logg: [{"first": "first"}],
+      logg:[{"first": "first"}],
       index: 0,
       checkedIn: false,
-      newTask: false,
       tasks: [],
-      currentTask: null,
       showCompleted: false,
       workTime: 0
     }
@@ -75,25 +51,6 @@ export default {
       this.logg[this.index].checkOutTime = new Date;
       this.checkedIn = false;
       localStorage.setItem('logg',JSON.stringify(this.logg));
-    },
-    addTask() {
-      const time = new Date().getTime();
-      const task = document.getElementById("task");
-      this.currentTask = {"checkIn": time, "task": task.value, "checkOut": 0, "timeSpent": 0};
-      task.value = "";
-      this.newTask = false;
-    },
-    completeTask() {
-      const time = new Date().getTime();
-      const timeSpent = this.timeSpent(this.currentTask.checkIn, time);
-      this.currentTask.checkOut = time;
-      this.currentTask.timeSpent = timeSpent;
-      this.tasks.push(this.currentTask);
-      this.currentTask = null;
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    },
-    removeCurrentTask: function() {
-      this.currentTask = null;
     },
     removeTask(index) {
       this.tasks.splice(index,1);
