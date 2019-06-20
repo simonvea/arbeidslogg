@@ -38,7 +38,9 @@ export default {
         },
         getTime(date) {
             const time = new Date(date);
-            return `${time.getHours()}:${String(time.getMinutes()).padStart(2,"0")}`
+            const hourString = String(time.getHours()).padStart(2, "0");
+            const minuteString = String(time.getMinutes()).padStart(2,"0");
+            return `${hourString}:${minuteString}`
         }
     }
 }

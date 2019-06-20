@@ -49,7 +49,7 @@ export default {
         },
         removeTask(index) {
             store.commit("removeTask", index);
-            localStorage.setItem('tasks', JSON.stringify(store.state.tasks));
+           // localStorage.setItem('tasks', JSON.stringify(store.state.tasks)); Bør gjøre dette på en annen måte
         }
     }
         
