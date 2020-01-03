@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -20,21 +20,21 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addTasksToLocalStorage({state}) {
+    addTasksToLocalStorage({ state }) {
       localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
-    addLoggToLocalStorage({state}) {
+    addLoggToLocalStorage({ state }) {
       localStorage.setItem('logg', JSON.stringify(state.logg));
     },
-    getLoggFromLocalStorage({commit}) {
+    getLoggFromLocalStorage({ commit }) {
       const logg = localStorage.getItem('logg');
-      const parsedLogg = JSON.parse(logg)
-      commit('addWorkTime', ...parsedLogg)
+      const parsedLogg = JSON.parse(logg);
+      commit('addWorkTime', ...parsedLogg);
     },
-    getTasksFromLocalStorage({commit}) {
+    getTasksFromLocalStorage({ commit }) {
       const tasks = localStorage.getItem('tasks');
       const parsedTasks = JSON.parse(tasks);
-      commit('addTask', ...parsedTasks)
-    },
+      commit('addTask', ...parsedTasks);
+    }
   }
-})
+});
