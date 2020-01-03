@@ -27,11 +27,10 @@ export default {
   data() {
     return {
       timeSpent: 'Trykk oppdater for å få kalkulert tid',
-      timer: undefined
+      intervalTimer: undefined
     };
   },
   name: 'checkInInfo',
-  props: ['checkInTime', 'checkedIn'],
   methods: {
     calculateTimeSpent() {
       const start = new Date(this.checkInTime);
@@ -73,17 +72,23 @@ export default {
         return time.toLocaleString('nb-no');
       }
       return undefined;
+    },
+    checkedIn() {
+      return this.$store.state.checkedIn;
+    },
+    checkInTime() {
+      return this.$store.state.checkInTime;
     }
   },
   mounted() {
     this.calculateTimeSpent();
-    this.timer = setInterval(
+    this.intervalTimer = setInterval(
       () => this.checkInTime && this.calculateTimeSpent(),
       60000
     );
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.intervalTimer);
     this.timeSpent = 0;
   }
 };

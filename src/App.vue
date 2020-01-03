@@ -4,10 +4,14 @@
       <h1>Arbeidslogg</h1>
       <div class="row justify-content-center">
         <nav class="btn-group" role="toolbar" aria-label="toolbar">
-          <button class="btn btn-danger" v-if="checkedIn" v-on:click="checkOut">
+          <button
+            class="btn btn-danger"
+            v-if="checkedIn"
+            v-on:click="doCheckOut"
+          >
             Sjekk ut
           </button>
-          <button class="btn btn-success" v-else v-on:click="checkIn">
+          <button class="btn btn-success" v-else v-on:click="doCheckIn">
             Sjekk inn
           </button>
           <router-link
@@ -26,10 +30,7 @@
       </div>
     </header>
     <main>
-      <info-screen
-        v-bind:checkInTime="checkInTime"
-        v-bind:checkedIn="checkedIn"
-      />
+      <info-screen v-bind:checkInTime="checkInTime" />
       <router-view class="container"></router-view>
     </main>
   </div>
@@ -37,98 +38,29 @@
 
 <script>
 import InfoScreen from './components/CheckInInfo.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'app',
   components: {
     InfoScreen
   },
-  data() {
-    return {
-      logg: [],
-      checkedIn: false,
-      checkInTime: undefined
-    };
+  computed: {
+    checkedIn() {
+      return this.$store.state.checkedIn;
+    },
+    checkInTime() {
+      const time = Date(this.$store.state.checkInTime);
+      return time.toLocaleString('nb-no');
+    }
   },
   methods: {
-    checkIn() {
-      const checkInTime = new Date();
-      this.checkInTime = checkInTime.toJSON();
-      localStorage.setItem('checkIn', checkInTime.toJSON());
-      this.checkedIn = true;
-    },
-    checkOut() {
-      const checkOutTime = new Date();
-      this.logg.push({
-        checkInTime: this.checkInTime,
-        checkOutTime: checkOutTime.toJSON()
-      });
-      this.checkedIn = false;
-      const oldLogg = localStorage.getItem('logg');
-      oldLogg
-        ? localStorage.setItem(
-            'logg',
-            JSON.stringify(JSON.parse(oldLogg).concat(this.logg))
-          )
-        : localStorage.setItem('logg', JSON.stringify(this.logg));
-
-      localStorage.removeItem('checkIn');
-    },
-    timeSpent(start, end) {
-      let timeSpentSeconds = (end - start) / 1000;
-      let minutesSpent = Math.trunc(timeSpentSeconds / 60);
-      let hoursSpent = Math.trunc(minutesSpent / 60);
-      if (hoursSpent != 0) {
-        minutesSpent = minutesSpent - 60 * hoursSpent;
-      }
-
-      let returnString = '';
-
-      if (minutesSpent == 1) {
-        returnString = minutesSpent + ' minutt';
-      } else {
-        returnString = minutesSpent + ' minutter';
-      }
-
-      if (hoursSpent == 0) {
-        return returnString;
-      }
-
-      if (hoursSpent == 1) {
-        returnString = hoursSpent + ' time og ' + returnString;
-      } else {
-        returnString = hoursSpent + ' timer og ' + returnString;
-      }
-
-      return returnString;
-    },
-    addToLocalStorage() {
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
-      localStorage.setItem('logg', JSON.stringify(this.logg));
-    },
-    getFromLocalStorage() {
-      /*       const tasks = localStorage.getItem('tasks');
-      const logg = localStorage.getItem('logg');
-      
-      if (tasks) {
-        this.tasks = JSON.parse(tasks);
-      }
-      if (logg != null && logg.length > 0) {
-        this.logg = JSON.parse(logg);
-      } */
-      const checkInTime = localStorage.getItem('checkIn');
-      if (checkInTime) {
-        this.checkInTime = checkInTime;
-        this.checkedIn = true;
-      }
-    }
+    ...mapActions(['doCheckIn', 'doCheckOut'])
   },
   /*   beforeDestroy() {
     this.addToLocalStorage();
   }, */
-  beforeMount() {
-    this.getFromLocalStorage();
-  }
+  beforeMount() {}
 };
 </script>
 
